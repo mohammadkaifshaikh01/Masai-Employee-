@@ -5,7 +5,7 @@ import { Pencil, ArrowLeft, Phone, Mail, Briefcase } from 'lucide-react';
 import axios from 'axios';
 
 function EmployeeDetails() {
-  const API_URL = "http://localhost:5000";
+  const API_URL = "https://masai-employee-wikb.onrender.com";
   const [employee, setEmployee] = useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://masai-employee-wikb.onrender.com';
 
 export const login = createAsyncThunk('auth/login', async (credentials) => {
   const response = await axios.post(`${API_URL}/user/login`, credentials);

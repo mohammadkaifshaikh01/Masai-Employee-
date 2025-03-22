@@ -7,7 +7,7 @@ import { UserCog } from 'lucide-react';
 import axios from 'axios';
 
 function EditEmployee() {
-  const API_URL = "http://localhost:5000";
+  const API_URL = "https://masai-employee-wikb.onrender.com";
   const [formData, setFormData] = useState({
     name: '',
     email: '',
