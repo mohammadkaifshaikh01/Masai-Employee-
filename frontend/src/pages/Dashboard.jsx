@@ -152,7 +152,7 @@ function Dashboard() {
             currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-indigo-600 text-white hover:bg-indigo-700"
           }`}
         >
-          Previous
+          Back
         </button>
         <span className="text-gray-700 text-lg font-medium">{currentPage} / {totalPages}</span>
         <button
