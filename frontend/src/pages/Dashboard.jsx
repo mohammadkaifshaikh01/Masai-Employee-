@@ -149,7 +149,7 @@ function Dashboard() {
 
       {loading && (
         <div className="flex justify-center items-center mt-8">
-          <div className="rounded-full h-8 w-50 border-b-2 ">
+          <div className=" h-8 w-50  ">
             Employee Loading......
           </div>
         </div>
