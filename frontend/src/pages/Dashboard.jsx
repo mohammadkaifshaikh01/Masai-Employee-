@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchEmployees, deleteEmployee } from '../store/slices/employeeSlice';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchEmployees, deleteEmployee } from "../store/slices/employeeSlice";
+import { toast } from "react-toastify";
 
 import { TiEye } from "react-icons/ti";
-
 import { FaEdit } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 
 function Dashboard() {
   const dispatch = useDispatch();
-  const { list: employees, loading, totalPages, currentPage } = useSelector((state) => state.employees);
-  const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState('createdAt');
-  const [order, setOrder] = useState('desc');
+  const { list: employees, loading, totalPages } = useSelector((state) => state.employees);
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [order, setOrder] = useState("desc");
+  const [currentPage, setCurrentPage] = useState(1); // Pagination state
 
   useEffect(() => {
     loadEmployees();
-  }, [dispatch, currentPage, search, sortBy, order]);
+  }, [currentPage, search, sortBy, order]);
 
   const loadEmployees = () => {
     dispatch(fetchEmployees({ page: currentPage, search, sortBy, order }));
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this employee?')) {
+    if (window.confirm("Are you sure you want to delete this employee?")) {
       try {
         await dispatch(deleteEmployee(id)).unwrap();
-        toast.success('Employee deleted successfully');
+        toast.success("Employee deleted successfully");
         loadEmployees();
       } catch (err) {
-        toast.error(err.message || 'Failed to delete employee');
+        toast.error("Failed to delete employee");
       }
     }
   };
@@ -39,24 +39,19 @@ function Dashboard() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Masai Employees ..</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Masai Employees</h1>
         <div className="flex items-center space-x-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search employees..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-3 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-     
-          </div>
+          <input
+            type="text"
+            placeholder="Search employees..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-3 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
           <Link
             to="/add-employee"
-            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
-        
-       
             Add Employee
           </Link>
         </div>
@@ -118,25 +113,16 @@ function Dashboard() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <div className="flex space-x-3">
-                    <Link
-                      to={`/employee/${employee._id}`}
-                      className="text-blue-600 hover:text-blue-900"
-                    >
-                      {/* <Eye /> */}
-                      <TiEye  className="h-5 w-5" />
+                    <Link to={`/employee/${employee._id}`} className="text-blue-600 hover:text-blue-900">
+                      <TiEye className="h-5 w-5" />
                     </Link>
-                    <Link
-                      to={`/edit-employee/${employee._id}`}
-                      className="text-indigo-600 hover:text-indigo-900"
-                    >
-                
+                    <Link to={`/edit-employee/${employee._id}`} className="text-indigo-600 hover:text-indigo-900">
                       <FaEdit className="h-5 w-5" />
                     </Link>
                     <button
                       onClick={() => handleDelete(employee._id)}
                       className="text-red-600 hover:text-red-900"
                     >
-                    
                       <FaDeleteLeft className="h-5 w-5" />
                     </button>
                   </div>
@@ -149,15 +135,36 @@ function Dashboard() {
 
       {loading && (
         <div className="flex justify-center items-center mt-8">
-          <div className=" h-8 w-50  ">
-            Employee Loading......
-          </div>
+          <span>Loading...</span>
         </div>
       )}
 
       {!loading && employees.length === 0 && (
         <div className="text-center mt-8 text-gray-500">No employees found</div>
       )}
+
+      {/* Pagination Buttons */}
+      <div className="flex justify-center items-center mt-4 space-x-2">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className={`px-4 py-2 rounded-md ${
+            currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-indigo-600 text-white hover:bg-indigo-700"
+          }`}
+        >
+          Previous
+        </button>
+        <span className="text-gray-700 text-lg font-medium">{currentPage} / {totalPages}</span>
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className={`px-4 py-2 rounded-md ${
+            currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-indigo-600 text-white hover:bg-indigo-700"
+          }`}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
