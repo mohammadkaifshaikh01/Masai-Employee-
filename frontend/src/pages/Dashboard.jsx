@@ -14,7 +14,7 @@ function Dashboard() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [order, setOrder] = useState("desc");
-  const [currentPage, setCurrentPage] = useState(1); // Pagination state
+  const [currentPage, setCurrentPage] = useState(1); 
 
   useEffect(() => {
     loadEmployees();
@@ -143,7 +143,7 @@ function Dashboard() {
         <div className="text-center mt-8 text-gray-500">No employees found</div>
       )}
 
-      {/* Pagination Buttons */}
+    
       <div className="flex justify-center items-center mt-4 space-x-2">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

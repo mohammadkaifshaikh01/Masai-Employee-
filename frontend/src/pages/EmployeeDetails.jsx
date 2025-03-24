@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Pencil, ArrowLeft, Phone, Mail, Briefcase } from 'lucide-react';
+import { Pencil, ArrowLeft,} from 'lucide-react';
 import axios from 'axios';
 
 function EmployeeDetails() {
@@ -17,7 +17,8 @@ function EmployeeDetails() {
         const response = await axios.get(`${API_URL}/em/single/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
-        setEmployee(response.data);
+        console.log(response.data.employee)
+        setEmployee(response.data.employee);
         setLoading(false);
       } catch (err) {
         toast.error('Failed to fetch employee details');
@@ -74,7 +75,7 @@ function EmployeeDetails() {
 
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <Briefcase className="h-5 w-5 text-gray-500 mr-3" />
+                
                   <div>
                 
                     <p className="text-sm text-gray-500">Position</p>
@@ -83,7 +84,7 @@ function EmployeeDetails() {
                 </div>
 
                 <div className="flex items-center">
-                  <Mail className="h-5 w-5 text-gray-500 mr-3" />
+               
                   <div>
                     <p className="text-sm text-gray-500">Email</p>
                     <p className="text-lg text-gray-800">{employee.email}</p>
@@ -91,7 +92,7 @@ function EmployeeDetails() {
                 </div>
 
                 <div className="flex items-center">
-                  <Phone className="h-5 w-5 text-gray-500 mr-3" />
+               
                   <div>
                     <p className="text-sm text-gray-500">Contact Number</p>
                     <p className="text-lg text-gray-800">{employee.contactNumber}</p>
